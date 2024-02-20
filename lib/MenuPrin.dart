@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:proyecto_integrador/Almacenes.dart';
 import 'package:proyecto_integrador/Inicio.dart';
+import 'package:proyecto_integrador/Productos.dart';
 void main(){
   runApp(MiMenu());
 }
@@ -49,7 +50,14 @@ class _MenuPrincipalState extends State<MenuPrincipal> {
                   MaterialPageRoute(builder: (context)=>MiVentana())
                   );
             }, 
-            child: Text("Continuar"))
+            child: Text("Continuar")),
+            SizedBox(height: 30,),
+            ElevatedButton(onPressed: (){
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context)=>A_Prod())
+                  );
+            }, 
+            child: Text("Productos"))
             ],
           ),
         ),
