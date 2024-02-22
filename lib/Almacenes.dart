@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:proyecto_integrador/MenuPrin.dart';
-import 'package:proyecto_integrador/main.dart';
+
 
 void main() {
   runApp(MiVentana());
@@ -130,7 +130,7 @@ class _VistaState extends State<Vista> {
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
               ),
             ),
-              SizedBox(
+              /*SizedBox(
                 height: 15,
               ),
               Container(
@@ -159,7 +159,7 @@ class _VistaState extends State<Vista> {
                         )
                       ],
                     )),
-              )
+              )*/
             ],
           ),
         ),

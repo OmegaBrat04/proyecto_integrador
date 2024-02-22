@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:proyecto_integrador/Almacenes.dart';
+import 'package:proyecto_integrador/MenuPrin.dart';
 
 void main() {
   runApp(MyApp());
@@ -34,7 +34,7 @@ class VentanaVenta extends StatelessWidget {
                   onPressed: ()
                    {  
                       Navigator.push(context,
-                  MaterialPageRoute(builder: (context)=>MiVentana())
+                  MaterialPageRoute(builder: (context)=>MiMenu())
                   );
                   },
                 ),
@@ -60,28 +60,47 @@ class VentanaVenta extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(width: 16),
+                SizedBox(width: 5,),
                 ElevatedButton(
-                  onPressed: () {   
-                  },
-                  child: Text('Agregar al carrito'),
-                ),
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        elevation: 0,
+                        shape: const CircleBorder(
+                          side: BorderSide(
+                            color: Color.fromARGB(255, 230, 35, 116),
+                            width: 1,
+                          ),
+                        ),
+                        backgroundColor: Colors.white,
+                        padding: const EdgeInsets.all(8),
+                      ),
+                      child: const Icon(
+                        size: 30,
+                        Icons.add,
+                        color: Color.fromARGB(255, 27, 39, 202),
+                      ),
+                    ),
               ],
             ),
             SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () {
-              },
-              child: Text('Escanear'),
-            ),
-            SizedBox(height: 16),
             Row(
-              mainAxisAlignment: MainAxisAlignment.end, 
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
+                ElevatedButton(
+                  onPressed: () {   
+                  },
+                  child: Text('Agregar al carrito', style: TextStyle(color: Colors.black),),
+                  style: ElevatedButton.styleFrom(
+                    elevation: 3,
+                  ),
+                ),
                 ElevatedButton(
                   onPressed: () { 
                   },
-                  child: Text('Eliminar del Carrito'),
+                  child: Text('Eliminar del Carrito', style: TextStyle(color: Colors.black)),
+                  style: ElevatedButton.styleFrom(
+                    elevation: 3,
+                  ),
                 ),
               ],
             ),
@@ -100,10 +119,13 @@ class VentanaVenta extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () {
-                },
-                child: const Text('Pagar Total'),
-              ),
+                  onPressed: () { 
+                  },
+                  child: Text('Pagar Total', style: TextStyle(color: Colors.black)),
+                  style: ElevatedButton.styleFrom(
+                    elevation: 3,
+                  ),
+                ),
             ),
           ],
         ),
