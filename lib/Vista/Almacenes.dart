@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:proyecto_integrador/MenuPrin.dart';
+import 'package:proyecto_integrador/Vista/MenuPrin.dart';
 
 
 void main() {
@@ -29,14 +29,14 @@ class _VistaState extends State<Vista> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      /*appBar: AppBar(
         backgroundColor: Colors.redAccent,
         title: Text("Almacenes"),
         titleTextStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
-      ),
+      ),*/
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(10.0),
+          padding: const EdgeInsets.all(15.0),
           child: Column(
             children: <Widget>[
               SizedBox(
@@ -79,7 +79,7 @@ class _VistaState extends State<Vista> {
                 ),
               ),
               SizedBox(
-                height: 30,
+                height: 35,
               ),
               Container(
                 child: TextField(
@@ -91,7 +91,7 @@ class _VistaState extends State<Vista> {
                 ),
               ),
               SizedBox(
-                height: 30,
+                height: 50,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,

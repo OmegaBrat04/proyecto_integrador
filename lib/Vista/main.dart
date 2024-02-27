@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:proyecto_integrador/MenuPrin.dart';
+import 'package:proyecto_integrador/Vista/MenuPrin.dart';
 
 void main() {
   runApp(MyApp());

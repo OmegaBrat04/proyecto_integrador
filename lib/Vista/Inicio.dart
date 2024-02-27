@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
-import 'package:proyecto_integrador/MenuPrin.dart';
+import 'package:proyecto_integrador/Vista/MenuPrin.dart';
+import 'package:proyecto_integrador/Vista/registro.dart';
 
 void main() => runApp(InicioSesion());
 
@@ -233,7 +234,10 @@ class _InicioState extends State<Inicio> {
                   children: [
                     Text("No tienes una cuenta? ...  ", style: TextStyle(color: Colors.white, fontStyle: FontStyle.italic),),
                     GestureDetector(
-                      onTap: (){},
+                      onTap: (){
+                         Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => RegistroU()));
+                      },
                       child: Text(
                         "Crea una",
                         style: TextStyle(

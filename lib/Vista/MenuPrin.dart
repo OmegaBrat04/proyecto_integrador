@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:proyecto_integrador/Almacenes.dart';
-import 'package:proyecto_integrador/Inicio.dart';
-import 'package:proyecto_integrador/Productos.dart';
-import 'package:proyecto_integrador/main.dart';
+import 'package:proyecto_integrador/Vista/Almacenes.dart';
+import 'package:proyecto_integrador/Vista/Inicio.dart';
+import 'package:proyecto_integrador/Vista/MostrarVentas.dart';
+import 'package:proyecto_integrador/Vista/Productos.dart';
+import 'package:proyecto_integrador/Vista/main.dart';
+import 'package:proyecto_integrador/Vista/registro.dart';
 
 void main() {
   runApp(MiMenu());
@@ -36,7 +38,7 @@ class _MenuPrincipalState extends State<MenuPrincipal> {
           "Menu Principal",
           style: TextStyle(color: Colors.white),
         ),
-        backgroundColor: Colors.redAccent,
+        backgroundColor: Color.fromARGB(255, 148, 41, 41),
       ),
       body: Center(
         child: Padding(
@@ -104,7 +106,8 @@ class _MenuPrincipalState extends State<MenuPrincipal> {
               SizedBox(height: 15,),
               ElevatedButton(
                 onPressed: () {
-                  
+                  Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => MostrarV()));
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -112,6 +115,25 @@ class _MenuPrincipalState extends State<MenuPrincipal> {
                     Icon(Icons.addchart_sharp, color: Color.fromARGB(255, 148, 41, 41),),
                     Text(
                       " Mostrar Ventas",
+                      style: TextStyle(fontSize: 18, color: Color.fromARGB(255, 148, 41, 41)),
+                      
+                    )
+                  ],
+                ),
+                style: ElevatedButton.styleFrom(elevation: 3, backgroundColor: Colors.white),
+              ),
+              SizedBox(height: 15,),
+              ElevatedButton(
+                onPressed: () {
+                   Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => RegistroU()));
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.supervised_user_circle, color: Color.fromARGB(255, 148, 41, 41),),
+                    Text(
+                      " Gestion de Usuarios",
                       style: TextStyle(fontSize: 18, color: Color.fromARGB(255, 148, 41, 41)),
                       
                     )
