@@ -13,4 +13,6 @@ class MAlmacenes {
 
   set setId(int id) => this.id = id;
   set setNombre(String nombre) => this.nombre = nombre;
+
+  
 }

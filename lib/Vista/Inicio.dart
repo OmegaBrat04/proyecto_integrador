@@ -1,19 +1,36 @@
 
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:proyecto_integrador/Vista/MenuPrin.dart';
 import 'package:proyecto_integrador/Vista/registro.dart';
 
-void main() => runApp(InicioSesion());
+Future<void> main() async{
+  await Hive.initFlutter();
+  await Hive.openBox('productos');
+  runApp(const InicioSesion());
+}
 
 class InicioSesion extends StatelessWidget {
   const InicioSesion({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "InicioSesion",
-      home: Inicio(),
+      home: FutureBuilder(
+        future: Hive.openBox('productos'),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            if (snapshot.hasError)
+              return Text('Error: ${snapshot.error}');
+            else
+              return const Inicio();
+          } else {
+            return CircularProgressIndicator();
+          }
+        },
+      ),
     );
   }
 }

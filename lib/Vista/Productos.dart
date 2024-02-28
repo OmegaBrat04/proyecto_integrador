@@ -1,34 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:proyecto_integrador/Controlador/CdorAgProductos.dart';
+import 'package:proyecto_integrador/Controlador/CdorListarProductos.dart';
+import 'package:proyecto_integrador/Modelo/MProductos.dart';
 import 'package:proyecto_integrador/Vista/MenuPrin.dart';
-void main() {
-  runApp(A_Prod());
-}
 
-class A_Prod extends StatelessWidget {
-  const A_Prod({super.key});
+class Productos extends StatelessWidget {
+  final List<Producto> listaProductos;
+  final AgregarProductos agregarProductos = AgregarProductos();
+  final TextEditingController idController = TextEditingController();
+  final TextEditingController nombreController = TextEditingController();
+  final TextEditingController precioController = TextEditingController();
+  final TextEditingController stockController = TextEditingController();
+  final ListarProductos listarProductos = ListarProductos();
+  Productos({super.key, required this.listaProductos});
 
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Productos(),
-      debugShowCheckedModeBanner: false,
-      title: "Productos",
-    );
-  }
-}
-
-class Productos extends StatefulWidget {
-  const Productos({super.key});
-
-  @override
-  State<Productos> createState() => _ProductosState();
-}
-
-class _ProductosState extends State<Productos> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
@@ -40,11 +29,10 @@ class _ProductosState extends State<Productos> {
                 children: [
                   IconButton(
                     onPressed: () {
-          
-                      Navigator.push(context,
-                    MaterialPageRoute(builder: (context)=>MenuPrincipal())
-                    );
-          
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => MenuPrincipal()));
                     },
                     icon: Icon(
                       Icons.arrow_back_rounded,
@@ -71,6 +59,25 @@ class _ProductosState extends State<Productos> {
                 children: [
                   Expanded(
                       child: TextField(
+                        controller: idController,
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                      labelText: "ID del producto",
+                      enabledBorder:
+                          OutlineInputBorder(borderSide: BorderSide(width: 2)),
+                    ),
+                  ))
+                ],
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                      child: TextField(
+                        controller: nombreController,
                     keyboardType: TextInputType.name,
                     decoration: InputDecoration(
                       labelText: "Nombre del producto",
@@ -88,6 +95,7 @@ class _ProductosState extends State<Productos> {
                 children: [
                   Expanded(
                       child: TextField(
+                        controller: precioController,
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       labelText: "Precio del producto",
@@ -105,9 +113,10 @@ class _ProductosState extends State<Productos> {
                 children: [
                   Expanded(
                       child: TextField(
+                        controller: stockController,
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
-                      labelText: "Cantidad del producto",
+                      labelText: "Stock del producto",
                       enabledBorder:
                           OutlineInputBorder(borderSide: BorderSide(width: 2)),
                     ),
@@ -135,8 +144,8 @@ class _ProductosState extends State<Productos> {
                       onChanged: (String) {},
                       hint: Text(
                         'Selecciona un Almacen  ',
-                        style:
-                            TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                       icon: Icon(
                         Icons.add_business_outlined,
@@ -159,7 +168,14 @@ class _ProductosState extends State<Productos> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      int id = int.parse(idController.text);
+                      String nombre = nombreController.text;
+                      double precio = double.parse(precioController.text);
+                      int stock = int.parse(stockController.text);
+                      agregarProductos.agregarProducto(
+                          id, nombre, precio, stock);
+                    },
                     icon: Icon(
                       Icons.save,
                       size: 50,
@@ -187,13 +203,22 @@ class _ProductosState extends State<Productos> {
               SizedBox(
                 height: 18,
               ),
-              Center(
-                heightFactor: 8,
-                child: Text(
-                  "ListView de Productos",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              Container(
+                height: MediaQuery.of(context).size.height *
+                    0.5, // Ajusta esto según tus necesidades
+                child: ListView.builder(
+                  itemCount: listarProductos.mostrarProductos().length,
+                  itemBuilder: (context, index) {
+                    var producto = listarProductos.mostrarProductos()[index];
+                    return ListTile(
+                      leading: Text(producto.id.toString()),
+                      title: Text(producto.nombre),
+                      subtitle: Text(producto.precio.toString()),
+                      trailing: Text(producto.stock.toString()),
+                    );
+                  },
                 ),
-              )
+              ),
             ],
           ),
         ),

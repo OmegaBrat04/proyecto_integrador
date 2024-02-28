@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:proyecto_integrador/Modelo/MProductos.dart';
 import 'package:proyecto_integrador/Vista/Almacenes.dart';
 import 'package:proyecto_integrador/Vista/Inicio.dart';
 import 'package:proyecto_integrador/Vista/MostrarVentas.dart';
@@ -7,7 +9,7 @@ import 'package:proyecto_integrador/Vista/main.dart';
 import 'package:proyecto_integrador/Vista/registro.dart';
 
 void main() {
-  runApp(MiMenu());
+  runApp(const MiMenu());
 }
 
 class MiMenu extends StatelessWidget {
@@ -30,6 +32,9 @@ class MenuPrincipal extends StatefulWidget {
 }
 
 class _MenuPrincipalState extends State<MenuPrincipal> {
+//var box = Hive.box('productos');
+
+  final List<Producto> productos = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,7 +74,8 @@ class _MenuPrincipalState extends State<MenuPrincipal> {
               ElevatedButton(
                 onPressed: () {
                   Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => A_Prod()));
+                        MaterialPageRoute(builder: (context) => Productos(listaProductos: productos,)));
+                        
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
