@@ -10,6 +10,14 @@ class Usuario {
     required this.contrasena,
   });
 
+  Map<String, dynamic> toMap() {
+    return {
+      'nombreUsuario': nombreUsuario,
+      'correo': correo,
+      'contrasena': contrasena,
+    };
+  }
+
   String get getNombreUsuario => nombreUsuario;
   String get getCorreo => correo;
   String get getContrasena => contrasena;

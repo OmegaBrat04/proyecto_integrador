@@ -1,31 +1,26 @@
 import 'package:flutter/material.dart';
+
+import 'package:proyecto_integrador/Controlador/CdorListarUsuarios.dart';
+import 'package:proyecto_integrador/Controlador/CdorUsuarios.dart';
+import 'package:proyecto_integrador/Modelo/MUsuarios.dart';
 import 'package:proyecto_integrador/Vista/MenuPrin.dart';
 
-void main() {
-  runApp(RegistroU());
-}
-
-class RegistroU extends StatelessWidget {
-  const RegistroU({super.key});
+class RegistroU extends StatefulWidget {
+  final List<Usuario> listaUsuarios;
+  RegistroU({Key? key, required this.listaUsuarios}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: VentanaR(),
-      debugShowCheckedModeBanner: false,
-      title: "Registro Usuarios",
-    );
-  }
+  State<RegistroU> createState() => _RegistroUState();
 }
 
-class VentanaR extends StatefulWidget {
-  const VentanaR({super.key});
+class _RegistroUState extends State<RegistroU> {
 
-  @override
-  State<VentanaR> createState() => _VentanaRState();
-}
+  final CdorUsuarios cdorUsuarios = CdorUsuarios();
+  final TextEditingController nombreController = TextEditingController();
+  final TextEditingController correoController = TextEditingController();
+  final TextEditingController contrasenaController = TextEditingController();
+  final ListarUsuarios listarUsuarios = ListarUsuarios();
 
-class _VentanaRState extends State<VentanaR> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,6 +61,7 @@ class _VentanaRState extends State<VentanaR> {
               ),
               Container(
                 child: TextField(
+                  controller: nombreController,
                   keyboardType: TextInputType.name,
                   cursorColor: Colors.lightBlueAccent,
                   decoration: InputDecoration(
@@ -78,6 +74,7 @@ class _VentanaRState extends State<VentanaR> {
               ),
               Container(
                 child: TextField(
+                  controller: correoController,
                   keyboardType: TextInputType.emailAddress,
                   cursorColor: const Color.fromARGB(255, 133, 30, 30),
                   decoration: InputDecoration(
@@ -90,6 +87,7 @@ class _VentanaRState extends State<VentanaR> {
               ),
               Container(
                 child: TextField(
+                  controller: contrasenaController,
                   keyboardType: TextInputType.visiblePassword,
                   cursorColor: Color.fromARGB(255, 133, 30, 30),
                   decoration: InputDecoration(
@@ -104,7 +102,14 @@ class _VentanaRState extends State<VentanaR> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+
+                      String nombreUsuario = nombreController.text;
+                      String correo = correoController.text;
+                      String contrasena = contrasenaController.text;
+                      cdorUsuarios.agregarUsuario(nombreUsuario, correo, contrasena);
+
+                    },
                     icon: Icon(
                       Icons.save,
                       size: 50,
@@ -130,13 +135,21 @@ class _VentanaRState extends State<VentanaR> {
                 ],
               ),
               SizedBox(height: 15,),
-              Center(
-              heightFactor: 8,
-              child: Text(
-                "ListView de Usuarios Existentes",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              Container(
+                height: MediaQuery.of(context).size.height * 0.5,
+                child: ListView.builder(
+                  itemCount: listarUsuarios.mostrarUsuarios().length,
+                  itemBuilder: (context, index) {
+                    var usuario = listarUsuarios.mostrarUsuarios()[index];
+                    return ListTile(
+                      leading: Text(usuario.nombreUsuario.toString()),
+                      title: Text(usuario.correo),
+                      subtitle: Text(usuario.contrasena),
+                      //trailing: Text(producto.stock.toString()),
+                    );
+                  },
+                ),
               ),
-            ),
           ],
         ),
       ),

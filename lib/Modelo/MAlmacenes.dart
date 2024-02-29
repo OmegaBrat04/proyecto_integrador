@@ -1,6 +1,6 @@
 class MAlmacenes {
   int id;
-  String nombre;
+  String nombre= "";
 
 
   MAlmacenes({

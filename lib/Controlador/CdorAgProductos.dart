@@ -6,7 +6,7 @@ class AgregarProductos{
     int id,
     String nombre,
     double precio,
-    int stock,
+    int stock, 
   ) {
     bool isValid = true;
     if (isValid) {

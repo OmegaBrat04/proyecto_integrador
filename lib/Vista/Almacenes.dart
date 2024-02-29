@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:proyecto_integrador/Controlador/CdorAlmacenes.dart';
 import 'package:proyecto_integrador/Vista/MenuPrin.dart';
 
-
-void main() {
-  runApp(MiVentana());
-}
-
-class MiVentana extends StatelessWidget {
+/*class MiVentana extends StatelessWidget {
   const MiVentana({super.key});
 
   @override
@@ -16,16 +12,19 @@ class MiVentana extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         home: Vista());
   }
-}
+}*/
 
-class Vista extends StatefulWidget {
-  const Vista({super.key});
+class MiVentana extends StatefulWidget {
+  const MiVentana({super.key});
 
   @override
-  State<Vista> createState() => _VistaState();
+  State<MiVentana> createState() => _VistaState();
 }
 
-class _VistaState extends State<Vista> {
+class _VistaState extends State<MiVentana> {
+  CdorAlmacenes cdorAlmacenes = CdorAlmacenes();
+  TextEditingController idController = TextEditingController();
+  TextEditingController nombreController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,6 +70,7 @@ class _VistaState extends State<Vista> {
               ),
               Container(
                 child: TextField(
+                  controller: idController,
                   keyboardType: TextInputType.numberWithOptions(signed: true),
                   cursorColor: Colors.lightBlueAccent,
                   decoration: InputDecoration(
@@ -83,6 +83,7 @@ class _VistaState extends State<Vista> {
               ),
               Container(
                 child: TextField(
+                  controller: nombreController,
                   keyboardType: TextInputType.name,
                   cursorColor: Colors.lightBlueAccent,
                   decoration: InputDecoration(
@@ -97,7 +98,12 @@ class _VistaState extends State<Vista> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      int id = int.parse(idController.text);
+                      String nombre = nombreController.text;
+                      cdorAlmacenes.AgregarAlmacen(id, nombre);
+
+                    },
                     icon: Icon(
                       Icons.save,
                       size: 50,

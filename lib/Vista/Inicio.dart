@@ -1,12 +1,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:proyecto_integrador/Modelo/MUsuarios.dart';
 import 'package:proyecto_integrador/Vista/MenuPrin.dart';
 import 'package:proyecto_integrador/Vista/registro.dart';
 
 Future<void> main() async{
   await Hive.initFlutter();
   await Hive.openBox('productos');
+  await Hive.openBox('usuarios');
   runApp(const InicioSesion());
 }
 
@@ -43,6 +45,7 @@ class Inicio extends StatefulWidget {
 }
 
 class _InicioState extends State<Inicio> {
+  final List<Usuario> usuarios = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -253,7 +256,7 @@ class _InicioState extends State<Inicio> {
                     GestureDetector(
                       onTap: (){
                          Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => RegistroU()));
+                      MaterialPageRoute(builder: (context) => RegistroU(listaUsuarios: usuarios,)));
                       },
                       child: Text(
                         "Crea una",

@@ -4,22 +4,28 @@ import 'package:proyecto_integrador/Controlador/CdorListarProductos.dart';
 import 'package:proyecto_integrador/Modelo/MProductos.dart';
 import 'package:proyecto_integrador/Vista/MenuPrin.dart';
 
-class Productos extends StatelessWidget {
+class Productos extends StatefulWidget {
   final List<Producto> listaProductos;
+  Productos({Key? key, required this.listaProductos}) : super(key: key);
+
+  @override
+  _ProductosState createState() => _ProductosState();
+}
+
+class _ProductosState extends State<Productos> {
   final AgregarProductos agregarProductos = AgregarProductos();
   final TextEditingController idController = TextEditingController();
   final TextEditingController nombreController = TextEditingController();
   final TextEditingController precioController = TextEditingController();
   final TextEditingController stockController = TextEditingController();
   final ListarProductos listarProductos = ListarProductos();
-  Productos({super.key, required this.listaProductos});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(10.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
+//import 'package:hive/hive.dart';
 import 'package:proyecto_integrador/Modelo/MProductos.dart';
+import 'package:proyecto_integrador/Modelo/MUsuarios.dart';
 import 'package:proyecto_integrador/Vista/Almacenes.dart';
 import 'package:proyecto_integrador/Vista/Inicio.dart';
 import 'package:proyecto_integrador/Vista/MostrarVentas.dart';
@@ -35,6 +36,7 @@ class _MenuPrincipalState extends State<MenuPrincipal> {
 //var box = Hive.box('productos');
 
   final List<Producto> productos = [];
+  final List<Usuario> usuarios = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -132,7 +134,7 @@ class _MenuPrincipalState extends State<MenuPrincipal> {
               ElevatedButton(
                 onPressed: () {
                    Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => RegistroU()));
+                      MaterialPageRoute(builder: (context) => RegistroU(listaUsuarios: usuarios,)));
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
