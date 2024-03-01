@@ -6,14 +6,14 @@ class Producto {
   String nombre;
   double precio;
   int stock;
-  //MAlmacenes almacen;
+  String almacen;
 
   Producto({
     required this.id,
     required this.nombre,
     required this.precio,
     required this.stock,
-    //required this.almacen,
+    required this.almacen,
   });
 
   Map<String, dynamic> toMap() {
@@ -22,7 +22,7 @@ class Producto {
       'nombre': nombre,
       'precio': precio,
       'stock': stock,
-      //'almacen': almacen.id,
+      'almacen': almacen,
     };
   }
 
@@ -30,12 +30,12 @@ class Producto {
   String get getNombre => nombre;
   double get getPrecio => precio;
   int get getCantidad => stock;
-  //MAlmacenes get getAlmacen => almacen;
+  String get getAlmacen => almacen;
 
   set setId(int id) => this.id = id;
   set setNombre(String nombre) => this.nombre = nombre;
   set setPrecio(double precio) => this.precio = precio;
   set setCantidad(int cantidad) => this.stock = cantidad;
-  //set setAlmacen(MAlmacenes almacen) => this.almacen = almacen;
+  set setAlmacen(String almacen) => this.almacen = almacen;
 }
 

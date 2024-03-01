@@ -9,6 +9,7 @@ Future<void> main() async{
   await Hive.initFlutter();
   await Hive.openBox('productos');
   await Hive.openBox('usuarios');
+  await Hive.openBox('almacenes');
   runApp(const InicioSesion());
 }
 

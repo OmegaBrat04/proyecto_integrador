@@ -13,7 +13,8 @@ class ListarProductos{
         id: producto['id'],
         nombre: producto['nombre'],
         precio: (producto['precio']),
-        stock:  (producto['stock']),
+        stock:  (producto['stock']), 
+        almacen: producto['almacen']
       ));
     }
 

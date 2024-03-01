@@ -8,6 +8,13 @@ class MAlmacenes {
     required this.nombre,
   });
 
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'nombre': nombre,
+    };
+  }
+
   int get getId => id;
   String get getNombre => nombre;
 

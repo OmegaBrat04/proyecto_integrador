@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:proyecto_integrador/Controlador/CdorAgProductos.dart';
+import 'package:proyecto_integrador/Controlador/CdorProductos.dart';
 import 'package:proyecto_integrador/Controlador/CdorListarProductos.dart';
+import 'package:proyecto_integrador/Controlador/CdorAlmacenes.dart';
 import 'package:proyecto_integrador/Modelo/MProductos.dart';
 import 'package:proyecto_integrador/Vista/MenuPrin.dart';
 
 class Productos extends StatefulWidget {
   final List<Producto> listaProductos;
-  Productos({Key? key, required this.listaProductos}) : super(key: key);
+  const Productos({Key? key, required this.listaProductos}) : super(key: key);
 
   @override
   _ProductosState createState() => _ProductosState();
@@ -19,6 +20,19 @@ class _ProductosState extends State<Productos> {
   final TextEditingController precioController = TextEditingController();
   final TextEditingController stockController = TextEditingController();
   final ListarProductos listarProductos = ListarProductos();
+  final CdorAlmacenes cdorAlmacenes = CdorAlmacenes();
+  String almacenSeleccionado = '';
+  bool isEditing = false;
+  int editingIndex = -1;
+
+  @override
+  void initState() {
+    super.initState();
+    List<dynamic> almacenes = cdorAlmacenes.obtenerNombresAlmacenes();
+    if (almacenes.isNotEmpty) {
+      almacenSeleccionado = almacenes[0];
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +79,7 @@ class _ProductosState extends State<Productos> {
                 children: [
                   Expanded(
                       child: TextField(
-                        controller: idController,
+                    controller: idController,
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       labelText: "ID del producto",
@@ -83,7 +97,7 @@ class _ProductosState extends State<Productos> {
                 children: [
                   Expanded(
                       child: TextField(
-                        controller: nombreController,
+                    controller: nombreController,
                     keyboardType: TextInputType.name,
                     decoration: InputDecoration(
                       labelText: "Nombre del producto",
@@ -101,7 +115,7 @@ class _ProductosState extends State<Productos> {
                 children: [
                   Expanded(
                       child: TextField(
-                        controller: precioController,
+                    controller: precioController,
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       labelText: "Precio del producto",
@@ -119,7 +133,7 @@ class _ProductosState extends State<Productos> {
                 children: [
                   Expanded(
                       child: TextField(
-                        controller: stockController,
+                    controller: stockController,
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       labelText: "Stock del producto",
@@ -135,19 +149,21 @@ class _ProductosState extends State<Productos> {
               Row(
                 children: [
                   Expanded(
-                    child: DropdownButton<String>(
-                      items: <String>[
-                        'Almacen 1',
-                        'Almacen 2',
-                        'Almacen 3',
-                        'Almacen 4'
-                      ].map((String value) {
-                        return DropdownMenuItem<String>(
+                    child: DropdownButton<dynamic>(
+                      value: almacenSeleccionado,
+                      items: cdorAlmacenes
+                          .obtenerNombresAlmacenes()
+                          .map((dynamic value) {
+                        return DropdownMenuItem<dynamic>(
                           value: value,
                           child: Text(value),
                         );
                       }).toList(),
-                      onChanged: (String) {},
+                      onChanged: (value) {
+                        setState(() {
+                          almacenSeleccionado = value;
+                        });
+                      },
                       hint: Text(
                         'Selecciona un Almacen  ',
                         style: TextStyle(
@@ -174,13 +190,25 @@ class _ProductosState extends State<Productos> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   IconButton(
-                    onPressed: () {
+                    onPressed: () async {
                       int id = int.parse(idController.text);
                       String nombre = nombreController.text;
                       double precio = double.parse(precioController.text);
                       int stock = int.parse(stockController.text);
+                      if (isEditing) {
+                       await agregarProductos.actualizarProducto(
+                            editingIndex, id, nombre, precio, stock, almacenSeleccionado);
+                        isEditing = false;
+                        editingIndex = -1;
+                      } else {
                       agregarProductos.agregarProducto(
-                          id, nombre, precio, stock);
+                          id, nombre, precio, stock, almacenSeleccionado);
+                      }
+                      idController.clear();
+                      nombreController.clear();
+                      precioController.clear();
+                      stockController.clear();
+                      setState(() {});
                     },
                     icon: Icon(
                       Icons.save,
@@ -188,39 +216,63 @@ class _ProductosState extends State<Productos> {
                       color: Color.fromARGB(255, 148, 41, 41),
                     ),
                   ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.edit,
-                      size: 50,
-                      color: Color.fromARGB(255, 148, 41, 41),
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.delete,
-                      size: 50,
-                      color: Color.fromARGB(255, 148, 41, 41),
-                    ),
-                  )
                 ],
               ),
               SizedBox(
                 height: 18,
               ),
               Container(
-                height: MediaQuery.of(context).size.height *
-                    0.5, // Ajusta esto según tus necesidades
+                height: MediaQuery.of(context).size.height * 0.5, 
                 child: ListView.builder(
                   itemCount: listarProductos.mostrarProductos().length,
                   itemBuilder: (context, index) {
                     var producto = listarProductos.mostrarProductos()[index];
                     return ListTile(
                       leading: Text(producto.id.toString()),
-                      title: Text(producto.nombre),
+                      title: Expanded(child: Text(producto.nombre)),
                       subtitle: Text(producto.precio.toString()),
-                      trailing: Text(producto.stock.toString()),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(producto.stock.toString()),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text(producto.almacen),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          IconButton(
+                            icon: Icon(
+                              Icons.edit,
+                              color: Color.fromARGB(255, 28, 78, 28),
+                            ),
+                            onPressed: () {
+                              var producto =
+                                  listarProductos.mostrarProductos()[index];
+                              setState(() {
+                                idController.text = producto.id.toString();
+                                nombreController.text = producto.nombre;
+                                precioController.text = producto.precio.toString();
+                                stockController.text = producto.stock.toString();
+                                almacenSeleccionado = producto.almacen;
+                                isEditing = true;
+                                editingIndex = index;
+                              });
+                            },
+                          ),
+                          IconButton(
+                            icon: Icon(
+                              Icons.delete,
+                              color: const Color.fromARGB(255, 94, 21, 21),
+                            ),
+                            onPressed: () {
+                              agregarProductos.eliminarProducto(index);
+                              setState(() {});
+                            },
+                          ),
+                        ],
+                      ),
                     );
                   },
                 ),

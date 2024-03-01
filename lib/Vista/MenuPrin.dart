@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:proyecto_integrador/Modelo/MAlmacenes.dart';
 //import 'package:hive/hive.dart';
 import 'package:proyecto_integrador/Modelo/MProductos.dart';
 import 'package:proyecto_integrador/Modelo/MUsuarios.dart';
@@ -37,6 +38,7 @@ class _MenuPrincipalState extends State<MenuPrincipal> {
 
   final List<Producto> productos = [];
   final List<Usuario> usuarios = [];
+  final List<MAlmacenes> almacenes = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,7 +59,7 @@ class _MenuPrincipalState extends State<MenuPrincipal> {
               ElevatedButton(
                 onPressed: () {
                   Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => MiVentana()));
+                        MaterialPageRoute(builder: (context) => MiVentana(listaAlmacenes: almacenes,)));
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -96,7 +98,7 @@ class _MenuPrincipalState extends State<MenuPrincipal> {
               ElevatedButton(
                 onPressed: () {
                    Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => MyApp()));
+                          MaterialPageRoute(builder: (context) => VentanaVenta()));
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
