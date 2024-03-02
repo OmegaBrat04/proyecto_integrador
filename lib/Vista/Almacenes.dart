@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:proyecto_integrador/Controlador/CdorAlmacenes.dart';
 import 'package:proyecto_integrador/Controlador/CdorListarAlmacenes.dart';
 import 'package:proyecto_integrador/Modelo/MAlmacenes.dart';

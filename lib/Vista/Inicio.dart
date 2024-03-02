@@ -1,21 +1,20 @@
-
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:proyecto_integrador/Controlador/ValidarInicioSesion.dart';
 import 'package:proyecto_integrador/Modelo/MUsuarios.dart';
 import 'package:proyecto_integrador/Vista/MenuPrin.dart';
-import 'package:proyecto_integrador/Vista/registro.dart';
+import 'package:proyecto_integrador/Vista/registroInicial.dart';
 
-Future<void> main() async{
+Future<void> main() async {
   await Hive.initFlutter();
   await Hive.openBox('productos');
   await Hive.openBox('usuarios');
   await Hive.openBox('almacenes');
-  runApp(const InicioSesion());
+  runApp(InicioSesion());
 }
 
 class InicioSesion extends StatelessWidget {
-  const InicioSesion({super.key});
-
+  InicioSesion({super.key});
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -47,6 +46,9 @@ class Inicio extends StatefulWidget {
 
 class _InicioState extends State<Inicio> {
   final List<Usuario> usuarios = [];
+  final TextEditingController correoController = TextEditingController();
+  final TextEditingController contrasenaController = TextEditingController();
+  final ValidarSesion validarSesion = ValidarSesion();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,12 +63,13 @@ class _InicioState extends State<Inicio> {
         children: [
           Container(
             //color: Colors.black,
+            width: double.infinity,
+            height: double.infinity,
+            //color: Colors.black,
             child: Image.network(
               "https://www.xtrafondos.com/wallpapers/vertical/spider-man-neon-8163.jpg",
               fit: BoxFit.cover,
             ),
-            width: double.infinity,
-            height: double.infinity,
           ),
           SingleChildScrollView(
             child: Column(
@@ -94,10 +97,11 @@ class _InicioState extends State<Inicio> {
                   children: [
                     Container(
                       width: 350,
-                      child: const TextField(
-                        style: TextStyle(
+                      child: TextField(
+                        controller: correoController,
+                        style: const TextStyle(
                             color: Colors.white, fontWeight: FontWeight.bold),
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           icon: Icon(
                             Icons.account_circle,
                             size: 50,
@@ -122,10 +126,11 @@ class _InicioState extends State<Inicio> {
                   children: [
                     Container(
                       width: 350,
-                      child: const TextField(
-                        style: TextStyle(
+                      child: TextField(
+                        controller: contrasenaController,
+                        style: const TextStyle(
                             color: Colors.white, fontWeight: FontWeight.bold),
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           icon: Icon(
                             Icons.lock,
                             size: 50,
@@ -231,10 +236,35 @@ class _InicioState extends State<Inicio> {
                   children: [
                     ElevatedButton(
                         onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => MenuPrincipal()));
+                          String correo = correoController.text;
+                          String contrasena = contrasenaController.text;
+                          Usuario? usuario =
+                              validarSesion.obtenerUsuarioPorCorreoYContrasena(
+                                  correo, contrasena);
+                          if (usuario != null) {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => MenuPrincipal()));
+                          }else{
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: const Text("Error"),
+                                  content: const Text("Usuario o contraseña incorrectos"),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: const Text("Aceptar"),
+                                    )
+                                  ],
+                                );
+                              }
+                            );
+                          }
                         },
                         style: ElevatedButton.styleFrom(
                             padding: const EdgeInsets.symmetric(horizontal: 45),
@@ -253,19 +283,26 @@ class _InicioState extends State<Inicio> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("No tienes una cuenta? ...  ", style: TextStyle(color: Colors.white, fontStyle: FontStyle.italic),),
+                    const Text(
+                      "No tienes una cuenta? ...  ",
+                      style: TextStyle(
+                          color: Colors.white, fontStyle: FontStyle.italic),
+                    ),
                     GestureDetector(
-                      onTap: (){
-                         Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => RegistroU(listaUsuarios: usuarios,)));
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => RegistroInicial(
+                                      listaUsuarios: usuarios,
+                                    )));
                       },
-                      child: Text(
+                      child: const Text(
                         "Crea una",
                         style: TextStyle(
-                          decoration: TextDecoration.underline,
-                          color: Colors.lightBlueAccent,
-                          fontStyle: FontStyle.italic
-                        ),
+                            decoration: TextDecoration.underline,
+                            color: Colors.lightBlueAccent,
+                            fontStyle: FontStyle.italic),
                       ),
                     )
                   ],
